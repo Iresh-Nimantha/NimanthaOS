@@ -68,7 +68,7 @@ const AndroidOS: React.FC<AndroidOSProps> = ({ apps, wallpaper }) => {
   const homeApps = apps.filter(a => !['phone-hidden-example'].includes(a.id));
 
   return (
-    <div className="h-full w-full bg-black relative overflow-hidden font-sans select-none flex flex-col">
+    <div className="h-[100dvh] w-full bg-black relative overflow-hidden font-sans select-none flex flex-col">
        {/* Wallpaper Layer */}
        <div 
         className="absolute inset-0 bg-cover bg-center transition-all duration-500 z-0"
@@ -149,7 +149,7 @@ const AndroidOS: React.FC<AndroidOSProps> = ({ apps, wallpaper }) => {
       </div>
 
       {/* Navigation Bar */}
-      <div className="h-14 bg-black text-white flex justify-around items-center px-6 z-50 shrink-0 border-t border-white/5 pb-safe">
+      <div className="bg-black text-white flex justify-around items-center px-6 z-50 shrink-0 border-t border-white/5 py-3 pb-[env(safe-area-inset-bottom)]">
         <button 
           onClick={goBack} 
           className="p-4 rounded-full active:bg-white/10 transition-colors group"

@@ -33,7 +33,7 @@ const Education: React.FC = () => {
         </div>
       )}
 
-      <div className={`${isMobile ? 'px-4 pb-20 space-y-6' : 'space-y-6'}`}>
+      <div className={`${isMobile ? 'px-4 pb-4 space-y-6' : 'space-y-6'}`}>
         <section>
           {!isMobile && (
             <h3 className="text-lg font-bold text-blue-300 flex items-center mb-3">

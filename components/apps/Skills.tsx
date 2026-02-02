@@ -58,7 +58,7 @@ const Skills: React.FC = () => {
         </ResponsiveContainer>
       </div>
 
-      <div className={`grid grid-cols-1 md:grid-cols-2 gap-2 mt-4 shrink-0 pb-20 ${isMobile ? 'px-4' : ''}`}>
+      <div className={`grid grid-cols-1 md:grid-cols-2 gap-2 mt-4 shrink-0 pb-4 ${isMobile ? 'px-4' : ''}`}>
          {SKILLS_DATA.map((skill, idx) => (
             <div key={idx} className="flex justify-between items-center p-3 bg-white/5 rounded-lg border border-white/5">
                 <span className="text-gray-300 text-sm font-medium">{skill.subject}</span>

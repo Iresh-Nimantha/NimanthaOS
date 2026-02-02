@@ -96,7 +96,7 @@ const Projects: React.FC = () => {
           </div>
         )}
         
-        <div className={`grid grid-cols-1 md:grid-cols-3 gap-4 flex-1 content-center ${isMobile ? 'px-4 pb-20 overflow-y-auto' : 'p-2'}`}>
+        <div className={`grid grid-cols-1 md:grid-cols-3 gap-4 flex-1 content-center ${isMobile ? 'px-4 pb-4 overflow-y-auto' : 'p-2'}`}>
           {categories.map((cat) => (
             <motion.button
               key={cat.id}
@@ -167,7 +167,7 @@ const Projects: React.FC = () => {
               </div>
            </div>
 
-           <div className={`grid grid-cols-1 md:grid-cols-3 gap-6 ${isMobile ? 'p-4 pb-20' : 'p-6'}`}>
+           <div className={`grid grid-cols-1 md:grid-cols-3 gap-6 ${isMobile ? 'p-4 pb-4' : 'p-6'}`}>
               <div className="md:col-span-2 space-y-6">
                   <section>
                     <h3 className="text-lg font-semibold text-blue-300 mb-2 flex items-center gap-2">
@@ -293,7 +293,7 @@ const Projects: React.FC = () => {
        </div>
 
        {/* List */}
-       <div className="flex-1 overflow-y-auto px-4 pb-20 custom-scrollbar">
+       <div className="flex-1 overflow-y-auto px-4 pb-4 custom-scrollbar">
           <div className="grid grid-cols-1 gap-4">
              <AnimatePresence>
                {filteredProjects.map((project) => (
