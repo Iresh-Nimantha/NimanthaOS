@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { sendMessageToGemini } from '../../services/geminiService';
 import { Sparkles, Send } from 'lucide-react';
+import Loader from '../ui/Loader';
 
 interface Message {
   role: 'user' | 'model';
@@ -52,31 +53,29 @@ const AiAssistant: React.FC = () => {
           </div>
         ))}
         {loading && (
-           <div className="flex justify-start">
-             <div className="bg-white/10 p-3 rounded-lg rounded-bl-none flex space-x-1">
-               <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" />
-               <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce delay-75" />
-               <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce delay-150" />
+           <div className="flex justify-start w-full h-32 items-center">
+             <div className="bg-white/5 p-4 rounded-lg rounded-bl-none w-full max-w-[200px] flex items-center justify-center">
+               <Loader />
              </div>
            </div>
         )}
         <div ref={bottomRef} />
       </div>
 
-      <form onSubmit={handleSend} className="p-3 border-t border-white/10 flex gap-2">
+      <form onSubmit={handleSend} className="p-3 border-t border-white/10 flex gap-2 bg-slate-900/80 backdrop-blur-sm">
         <input 
           type="text" 
           value={input}
           onChange={(e) => setInput(e.target.value)}
           placeholder="Ask about Nimantha..."
-          className="flex-1 bg-white/5 border border-white/10 rounded-full px-4 py-2 text-sm text-white outline-none focus:border-blue-500 transition-colors"
+          className="flex-1 bg-white/5 border border-white/10 rounded-full px-4 py-3 text-sm text-white outline-none focus:border-blue-500 transition-colors"
         />
         <button 
           type="submit"
           disabled={loading}
-          className="bg-blue-600 hover:bg-blue-700 p-2 rounded-full text-white disabled:opacity-50 transition-colors"
+          className="bg-blue-600 hover:bg-blue-700 p-3 rounded-full text-white disabled:opacity-50 transition-colors"
         >
-          <Send size={16} />
+          <Send size={18} />
         </button>
       </form>
     </div>

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { AppConfig, AppId } from '../../types';
-import { Wifi, Battery, Signal, ChevronLeft } from 'lucide-react';
+import { Wifi, Battery, Signal, ChevronLeft, Circle, Square, Triangle } from 'lucide-react';
 import { sendMessageToGemini } from '../../services/geminiService';
 
 interface AndroidOSProps {
@@ -29,6 +29,18 @@ const AndroidOS: React.FC<AndroidOSProps> = ({ apps, wallpaper }) => {
     setActiveApp(null);
   };
 
+  const goBack = () => {
+    // Simple back implementation: Close app if open
+    if (activeApp) {
+      setActiveApp(null);
+    }
+  };
+
+  const handleMinimize = () => {
+    // Simple minimize implementation: Go home
+    setActiveApp(null);
+  };
+
   const handleGeminiSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!assistantQuery.trim()) return;
@@ -37,20 +49,19 @@ const AndroidOS: React.FC<AndroidOSProps> = ({ apps, wallpaper }) => {
     setAssistantQuery('');
   };
 
-  // Filter out apps that shouldn't appear on the home screen grid (like hidden system utilities if any)
-  // We explicitly want Settings to appear now.
+  // Filter out apps that shouldn't appear on the home screen grid
   const homeApps = apps.filter(a => !['phone-hidden-example'].includes(a.id));
 
   return (
-    <div className="h-full w-full bg-black relative overflow-hidden font-sans select-none">
+    <div className="h-full w-full bg-black relative overflow-hidden font-sans select-none flex flex-col">
        {/* Wallpaper */}
        <div 
-        className="absolute inset-0 bg-cover bg-center transition-all duration-1000"
+        className="absolute inset-0 bg-cover bg-center transition-all duration-1000 z-0"
         style={{ backgroundImage: `url('${wallpaper}')`, filter: activeApp ? 'brightness(0.3)' : 'brightness(1)' }}
       />
       
       {/* Status Bar */}
-      <div className="absolute top-0 w-full h-8 flex justify-between items-center px-4 text-white text-xs z-50 font-medium tracking-wide">
+      <div className="w-full h-8 flex justify-between items-center px-4 text-white text-xs z-50 font-medium tracking-wide shrink-0 bg-black/20 backdrop-blur-sm">
         <span>{time.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
         <div className="flex items-center space-x-2">
            <Wifi size={14} />
@@ -60,7 +71,7 @@ const AndroidOS: React.FC<AndroidOSProps> = ({ apps, wallpaper }) => {
       </div>
 
       {/* Main Content Area */}
-      <div className="h-full w-full pt-8 pb-0 relative">
+      <div className="flex-1 relative overflow-hidden z-10">
         <AnimatePresence mode="wait">
            {!activeApp ? (
              <motion.div 
@@ -68,10 +79,10 @@ const AndroidOS: React.FC<AndroidOSProps> = ({ apps, wallpaper }) => {
                initial={{ opacity: 0, scale: 0.9 }}
                animate={{ opacity: 1, scale: 1 }}
                exit={{ opacity: 0, scale: 1.1 }}
-               className="h-full flex flex-col justify-end p-4 pb-12"
+               className="h-full flex flex-col justify-end p-4 pb-4"
              >
                 {/* Assistant Trigger Bubble */}
-                <div className="absolute top-20 right-4">
+                <div className="absolute top-16 right-4 z-20">
                   <button onClick={() => setAssistantOpen(true)} className="bg-white p-3 rounded-full shadow-lg shadow-purple-500/30 animate-bounce">
                     <img src="https://www.gstatic.com/lamda/images/gemini_sparkle_v002_d4735304ff6292a690345.svg" className="w-6 h-6" alt="Gemini" />
                   </button>
@@ -86,7 +97,7 @@ const AndroidOS: React.FC<AndroidOSProps> = ({ apps, wallpaper }) => {
                 </div>
 
                 {/* App Grid */}
-                <div className="grid grid-cols-4 gap-y-6 gap-x-2 mb-6">
+                <div className="grid grid-cols-4 gap-y-6 gap-x-2 mb-2">
                    {homeApps.map(app => (
                      <div key={app.id} className="flex flex-col items-center gap-1" onClick={() => handleAppClick(app.id)}>
                         <div className="w-14 h-14 bg-slate-800/80 backdrop-blur-md rounded-2xl flex items-center justify-center border border-white/10 shadow-lg active:scale-95 transition-transform">
@@ -96,7 +107,6 @@ const AndroidOS: React.FC<AndroidOSProps> = ({ apps, wallpaper }) => {
                      </div>
                    ))}
                 </div>
-
              </motion.div>
            ) : (
              <motion.div 
@@ -109,17 +119,31 @@ const AndroidOS: React.FC<AndroidOSProps> = ({ apps, wallpaper }) => {
              >
                 {/* App Wrapper - Full Screen */}
                 {apps.find(a => a.id === activeApp)?.component}
-                
-                {/* Home Indicator Gesture Bar */}
-                <div 
-                    className="absolute bottom-0 left-0 w-full h-6 z-50 flex justify-center items-center cursor-pointer bg-gradient-to-t from-black/40 to-transparent"
-                    onClick={goHome}
-                >
-                    <div className="w-32 h-1 bg-white/50 rounded-full mb-1"></div>
-                </div>
              </motion.div>
            )}
         </AnimatePresence>
+      </div>
+
+      {/* Navigation Bar */}
+      <div className="h-14 bg-black text-white flex justify-around items-center px-6 z-50 shrink-0 border-t border-white/10">
+        <button 
+          onClick={goBack} 
+          className="p-4 rounded-full active:bg-white/10 transition-colors"
+        >
+           <Triangle size={20} className="-rotate-90 fill-white/20 text-gray-300" />
+        </button>
+        <button 
+          onClick={goHome} 
+          className="p-4 rounded-full active:bg-white/10 transition-colors"
+        >
+           <Circle size={18} className="fill-white/20 text-gray-300" />
+        </button>
+        <button 
+          onClick={handleMinimize} 
+          className="p-4 rounded-full active:bg-white/10 transition-colors"
+        >
+           <Square size={18} className="fill-white/20 text-gray-300" />
+        </button>
       </div>
 
       {/* Gemini Assistant Overlay */}

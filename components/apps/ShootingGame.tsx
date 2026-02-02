@@ -1,5 +1,5 @@
 import React, { useRef, useEffect, useState } from 'react';
-import { Rocket, Target, Trophy, RotateCcw, Crosshair } from 'lucide-react';
+import { Rocket, Trophy, RotateCcw, Crosshair } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import confetti from 'canvas-confetti';
 
@@ -54,7 +54,6 @@ const ShootingGame: React.FC = () => {
       y: -size,
       width: size,
       height: size,
-      // Reduced speed for easier gameplay (was 2/3)
       speed: isMobile ? 1.5 : 2, 
       id: Date.now() + Math.random()
     });
@@ -86,7 +85,7 @@ const ShootingGame: React.FC = () => {
     bulletsRef.current.forEach(b => b.y -= b.speed);
     bulletsRef.current = bulletsRef.current.filter(b => b.y > 0);
 
-    // Spawn Enemies - Slower spawn rate (was 1000/800)
+    // Spawn Enemies
     if (Date.now() - lastEnemySpawnRef.current > (isMobile ? 1500 : 1200)) {
       spawnEnemy(canvas.width);
       lastEnemySpawnRef.current = Date.now();
@@ -276,32 +275,32 @@ const ShootingGame: React.FC = () => {
 
       {/* MOBILE CONTROLS */}
       {isMobile && (
-        <div className="absolute bottom-0 w-full h-48 z-40 pb-6 px-4 flex justify-between items-end bg-gradient-to-t from-black/80 to-transparent">
+        <div className="absolute bottom-0 w-full h-48 z-40 pb-6 px-6 flex justify-between items-end bg-gradient-to-t from-black/90 to-transparent">
            {/* D-PAD */}
-           <div className="flex gap-4">
+           <div className="flex gap-4 mb-2">
               <button 
-                className="w-20 h-20 bg-white/10 border-2 border-white/20 rounded-full flex items-center justify-center active:bg-blue-500/50 transition-colors backdrop-blur-md"
+                className="w-20 h-20 bg-white/10 border-2 border-white/20 rounded-full flex items-center justify-center active:bg-blue-500/50 active:scale-90 transition-all backdrop-blur-md"
                 onTouchStart={(e) => { e.preventDefault(); controlsRef.current.left = true; }}
                 onTouchEnd={(e) => { e.preventDefault(); controlsRef.current.left = false; }}
               >
-                <span className="text-3xl text-white">←</span>
+                <span className="text-4xl text-white font-bold">←</span>
               </button>
               <button 
-                className="w-20 h-20 bg-white/10 border-2 border-white/20 rounded-full flex items-center justify-center active:bg-blue-500/50 transition-colors backdrop-blur-md"
+                className="w-20 h-20 bg-white/10 border-2 border-white/20 rounded-full flex items-center justify-center active:bg-blue-500/50 active:scale-90 transition-all backdrop-blur-md"
                 onTouchStart={(e) => { e.preventDefault(); controlsRef.current.right = true; }}
                 onTouchEnd={(e) => { e.preventDefault(); controlsRef.current.right = false; }}
               >
-                <span className="text-3xl text-white">→</span>
+                <span className="text-4xl text-white font-bold">→</span>
               </button>
            </div>
 
            {/* FIRE BUTTON */}
            <button 
-              className="w-24 h-24 bg-red-500/20 border-4 border-red-500/50 rounded-full flex items-center justify-center active:bg-red-500 transition-colors shadow-[0_0_30px_rgba(239,68,68,0.3)] backdrop-blur-md"
+              className="w-24 h-24 mb-2 bg-red-500/20 border-4 border-red-500/50 rounded-full flex items-center justify-center active:bg-red-500 active:scale-90 transition-all shadow-[0_0_30px_rgba(239,68,68,0.3)] backdrop-blur-md"
               onTouchStart={(e) => { e.preventDefault(); controlsRef.current.fire = true; }}
               onTouchEnd={(e) => { e.preventDefault(); controlsRef.current.fire = false; }}
            >
-              <Crosshair size={40} className="text-white" />
+              <Crosshair size={48} className="text-white" />
            </button>
         </div>
       )}
